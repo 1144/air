@@ -1,5 +1,5 @@
 
-var module_abbr = require('./module_abbr'),
+var module_abbr = require('./module-abbr'),
 	cache = {};
 
 exports.use = function (moduleId) {

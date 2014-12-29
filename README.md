@@ -4,7 +4,7 @@
 
 ## 在node服务端使用
 
-首先通过npm命令安装：`npm install air-js`。
+通过npm命令安装air：`npm install air-js`
 
 使用示例：
 ```javascript
@@ -23,7 +23,7 @@
 
 其次，由于air的模块化遵循CommonJS模块化规范，所以在浏览器端使用时，需要你的开发工具对模块进行简单的封装，或者手动进行封装。
 
-封装方法，在文件头加 `define(function(require, exports, module){`，在文件尾加 `});` 即可。
+封装方法，在文件头加 `define(function(require, exports, module){` ，在文件尾加 `});` 即可。
 
 最后，不知道你们怎么加载模块，是不是还得配置模块根路径啥的？
 
