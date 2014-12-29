@@ -1,10 +1,10 @@
-# 轻量级、模块化的JavaScript组件库（工具函数库）
+# 轻量级、模块化的JS组件库 (工具函数库)
 
 致力于打造轻量级、模块化的JavaScript组件库，浏览器端和node服务端都可以使用的组件库。墙裂欢迎大家分享自己的组件，享用别人的组件！
 
 ## 在node服务端使用
 
-首先通过npm命令安装：`pm install air-js`。
+首先通过npm命令安装：`npm install air-js`。
 
 使用示例：
 ```javascript
@@ -41,12 +41,12 @@ air的开发和测试使用 [mokjs](http://mokjs.com/) 开发框架。
 mokjs项目配置：
 ```javascript
 	'test-air': {
-		path: 'D:/1144/air/',
+		path: 'D:/1144/air/',	//air项目根路径
 		modular_spec: 'Modules'
 	},
 	'test-air-html': {
 		type: 'html',
-		path: 'D:/1144/air/test/',
+		path: 'D:/1144/air/test/',	//测试代码路径
 		data: {
 			root: '//test-air.cn/'
 		}
@@ -59,7 +59,7 @@ mokjs路由配置：
 			regexp: /^\/air\/.+?\.js$/,
 			project: 'test-air',
 			format: function(match){
-				return '..' + match[0]; //跳过main
+				return '..' + match[0];
 			}
 		}, {
 			regexp: /^.+?\.html/,
