@@ -1,0 +1,23 @@
+{
+  "name": "air-js",
+  "version": "0.0.1",
+  "description": "轻量级、模块化的JavaScript组件库（工具函数库），浏览器端和node服务端都可以使用的组件库。",
+  "license": "MIT",
+  "homepage": "http://mokjs.com/air",
+  "main": "node-air.js",
+  "keywords": [
+    "air", "air-js", "airjs"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1144/air"
+  },
+  "author": {
+    "name": "Liming Feng",
+    "email": "flm1144@163.com"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "readmeFilename": "README.md"
+}

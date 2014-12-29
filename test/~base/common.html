@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>Test: {{test_it}}</title>
+<style type="text/css">
+.title{font-family:"\5FAE\8F6F\96C5\9ED1", Helvetica, Arial, sans-serif; font-size: 28px;}
+</style>
+<script type="text/javascript" src="{{root}}~base/trace.js"></script>
+<script type="text/javascript" src="{{root}}~base/jquery-1.7.1.min.js"></script>
+</head>
+<body>
+<div class="title">Test: {{test_it}}</div>
+<p>请按组合键 <b style="color:#0000ff;">Alt + ~</b> 调出控制台。</p>
+<div id="result"></div>
+{{
+	if($data.test_it){
+		return '<script type="text/javascript" src="'+$data.root+$data.test_it+'"></script>';
+	}
+}}
+
+{{test_body}}
+
+<script type="text/javascript">
+	trace.report(); //打印测试报告
+</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/event/givee.js</mokdata>
+<mokdata name="data.test_body">
+<script type="text/javascript">
+
+	var givee = require('air/event/givee');
+
+	var foo = {};
+	givee(foo);
+
+	foo.on('go', function(msg){
+		trace('go1', msg);
+	});
+
+	foo.on('go', function(msg){
+		trace('go2', msg);
+	});
+
+	foo.one('go', function(msg){
+		trace('go3', msg);
+	});
+
+	foo.on('go.go', function(msg){
+		trace('go.go', msg);
+	});
+
+	foo.emit('go', 'yes!');
+	foo.emit('go.go', 'no!');
+
+	foo.off('go.go');
+
+	foo.emit('go', 'yes2!');
+	foo.emit('go.go', 'no2!');
+
+	trace('---');
+
+	var bar = givee({});
+	bar.on('go', function(msg){
+		trace('bar.go', msg);
+	});
+
+	foo.emit('go', 'aging!');
+	bar.emit('go', 'bar first!');
+
+	bar.on('go.go', function(msg){
+		trace('bar: go.go', msg);
+	});
+
+	bar.on('go.go.go', function(msg){
+		trace('bar: go.go.go', msg);
+	});
+
+	bar.emit('go', 'bar aging!'); //all will be called
+
+	bar.emit('go.go', 'just go.go, no go.go.go');
+
+</script>
+</mokdata>
