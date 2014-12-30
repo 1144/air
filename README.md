@@ -6,6 +6,8 @@
 
 通过npm命令安装air：`npm install air-js`
 
+只有一个API：__air.use__(moduleId) - 引用模块，moduleId为模块简称或全称（也即模块路径），简称与全称的对应关系请看 `module-abbr.js` 文件。
+
 使用示例：
 ```javascript
 	var air = require('air-js');
@@ -23,11 +25,11 @@
 
 其次，由于air的模块化遵循CommonJS模块化规范，所以在浏览器端使用时，需要你的开发工具对模块进行简单的封装，或者手动进行封装。
 
-封装方法，在文件头加 `define(function(require, exports, module){` ，在文件尾加 `});` 即可。
+封装方法，在文件头加 `define(function (require, exports, module) {` ，在文件尾加 `});` 即可。
 
 最后，不知道你们怎么加载模块，是不是还得配置模块根路径啥的？
 
-其实，墙裂推荐你使用 [mokjs](http://mokjs.com/) 解决JS的模块化问题。如果使用mokjs，把air拷贝到你的项目目录下，你就可以愉快地使用air了！
+在这里，墙裂推荐你使用 [mokjs](http://mokjs.com/) 解决JS的模块化问题。如果使用mokjs，把air拷贝到你的项目目录下，你就可以愉快地使用air了！
 
 ```javascript
 	var byteLength = require('air/string/byteLength');
@@ -58,7 +60,7 @@ mokjs路由配置：
 		{
 			regexp: /^\/air\/.+?\.js$/,
 			project: 'test-air',
-			format: function(match){
+			format: function (match) {
 				return '..' + match[0];
 			}
 		}, {
@@ -66,14 +68,14 @@ mokjs路由配置：
 			project: 'test-air-html'
 		}, {
 			regexp: /.*/,
-			locate: function(match){
+			locate: function (match) {
 				return projects['test-air-html'].path + match[0];
 			}
 		}
 	]
 ```
 
-最后配置host `127.0.0.1 test-air.cn`，即可访问类似 ` http://test-air.cn/util/url.html?arg=1 ` 这样的测试地址进行查看了。
+最后配置host `127.0.0.1 test-air.cn` ，即可访问类似 ` http://test-air.cn/util/url.html?arg=1 ` 这样的测试地址进行查看了。
 
 测试用例的编写请参照 `test/util/url.html`。
 
