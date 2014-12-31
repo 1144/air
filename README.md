@@ -1,4 +1,4 @@
-# 轻量级、模块化的JS组件库 (工具函数库)
+# 轻量级、模块化的JS组件库 (函数库)
 
 致力于打造轻量级、模块化的JavaScript组件库，浏览器端和node服务端都可以使用的组件库。墙裂欢迎大家分享自己的组件，享用别人的组件！
 
@@ -87,7 +87,7 @@ mokjs路由配置：
 
 API文档采用 [mokdoc](https://github.com/1144/mokdoc) 工具生成。
 
-需要先安装mokdoc `npm install mokdoc` 。
+需要安装mokdoc：`npm install mokdoc`
 
 修改下面的配置并运行代码即可生成文档：
 ```javascript
