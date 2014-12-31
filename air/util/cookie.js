@@ -1,6 +1,7 @@
 
 	/*--
 		cookie操作对象。
+		-note 服务端不可用
 	*/
 	Cookie = {
 		/*--
@@ -17,7 +18,7 @@
 			-note 删除cookie：Cookie.set(name, null);
 			-eg
 				//最简单的种cookie
-				Cookie.set('ts_env11', 'x-x_x,x.x=x%x;x$x\\x'); //只有-_.这3个字符不会被转义
+				Cookie.set('ts_env11', 'x-x_x,x.x=x%x;x$x\\x'); //-_.这3个字符不会被转义
 				Cookie.set('ts_env12', 2);
 				//5小时后过期的cookie
 				Cookie.set('ts112', 'ffd892', {exp:5});
@@ -29,39 +30,42 @@
 				Cookie.set('ts_env12', null);
 				trace(Cookie.get('ts11'));
 		*/
-		set: function(name, value, opt){
+		set: function (name, value, opt) {
 			opt || (opt = {});
 			var t = new Date(), exp = opt.exp;
-			if(typeof exp==='number'){
+			if (typeof exp === 'number') {
 				t.setTime(t.getTime() + exp*3600000); //60m * 60s * 1000ms
-			}else if(exp==='forever'){
-				t.setFullYear(t.getFullYear()+50); //专业种植cookie 50年
-			}else if(value===null){ //删除cookie
+			} else if (exp === 'forever') {
+				t.setFullYear(t.getFullYear() + 50); //专业种植cookie 50年
+			} else if (value === null) { //删除cookie
 				value = '';
 				t.setTime(t.getTime() - 3600000);
-			}else if(exp instanceof Date){ //传的是一个时间对象
+			} else if (exp instanceof Date) { //传的是一个时间对象
 				t = exp;
-			}else{
+			} else {
 				t = '';
 			}
-			document.cookie = name+'='+encodeURIComponent(value)+(t && '; expires='+t.toUTCString())+
-				'; domain='+(opt.domain || 'letv.com')+'; path='+(opt.path || '/')+(opt.secure ? '; secure' : '');
+			document.cookie = name+'='+encodeURIComponent(value)+
+				(t && '; expires='+t.toUTCString())+
+				'; domain='+(opt.domain || 'letv.com')+'; path='+(opt.path || '/')+
+				(opt.secure ? '; secure' : '');
 		},
 		/*--
 			读取Cookie
 			-p string name cookie名
 			-r string cookie值
 		*/
-		get: function(name){
+		get: function (name) {
 			name += '=';
 			var cookies = (document.cookie || '').split(';'),
 				cookie,
 				nameLength = name.length,
 				i = cookies.length;
-			while(i--){
+			while (i--) {
 				cookie = cookies[i].replace(/^\s+/,'');
-				if(cookie.slice(0,nameLength)===name){
-					return decodeURIComponent(cookie.slice(nameLength)).replace(/\s+$/,'');
+				if (cookie.slice(0,nameLength) === name) {
+					return decodeURIComponent(
+						cookie.slice(nameLength)).replace(/\s+$/,'');
 				}
 			}
 			return '';

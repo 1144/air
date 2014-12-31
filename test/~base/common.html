@@ -6,12 +6,12 @@
 <style type="text/css">
 .title{font-family:"\5FAE\8F6F\96C5\9ED1", Helvetica, Arial, sans-serif; font-size: 28px;}
 </style>
-<script type="text/javascript" src="{{root}}~base/trace.js"></script>
+<script type="text/javascript" src="{{root}}~base/trace-1.1.0.js"></script>
 <script type="text/javascript" src="{{root}}~base/jquery-1.7.1.min.js"></script>
 </head>
 <body>
 <div class="title">Test: {{test_it}}</div>
-<p>请按组合键 <b style="color:#0000ff;">Alt + ~</b> 调出控制台。</p>
+
 <div id="result"></div>
 {{
 	if($data.test_it){
@@ -23,6 +23,7 @@
 
 <script type="text/javascript">
 	trace.report(); //打印测试报告
+	trace.show();
 </script>
 </body>
 </html>

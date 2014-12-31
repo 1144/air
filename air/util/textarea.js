@@ -1,6 +1,8 @@
 	/*--
-		textarea相关工具函数
+		文本域处理相关工具函数
 		-as Textarea
+		-note 服务端不可用
+		-note 暂未测试
 		-eg
 			var Textarea = require('air/util/textarea');
 			Textarea.selectionBefore();

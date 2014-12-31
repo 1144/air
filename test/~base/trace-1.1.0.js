@@ -1,10 +1,11 @@
 /*--
 	本地调试时使用的trace文件，暴露到window全局下的唯一变量名为trace
 	-author hahaboy | @攻城氏
+	-github https://github.com/1144/trace
 */
 window.trace || function(window, document){
-
-	var _Trace = {}, //调试框对象，上线后不能使用这个对象！！！
+	
+	var _Trace, //调试框对象，上线后不能使用这个对象！！！
 		tracePrefix = 'trace', //调试框命名前缀
 		cssPrefix = '#'+tracePrefix+'_box '; //样式前缀
 
@@ -14,13 +15,13 @@ window.trace || function(window, document){
 
 	//type: 0 white for trace, 1 green for ok, 2 yellow for warn, 3 red for err
 	function pushData(type, args){
-		args = args.length===1 ? args[0] : join.call(args,'◆'); //不要用' | '之类有空格的
+		args = args.length===1 ? args[0] : join.call(args, '◆'); //不要用' | '之类有空格的
 		_cache.push([type, args]);
 		_Trace.inited && _Trace.showThisData(type, args);
 	}
 	function trace(data){
 		//对trace单独处理，因为绝大多数时候是调用trace
-		arguments.length>1 && ( data=join.call(arguments,'◆') );
+		arguments.length>1 && (data = join.call(arguments, '◆'));
 		_cache.push([0, data]);
 		_Trace.inited && _Trace.showThisData(0, data);
 	}
@@ -33,15 +34,15 @@ window.trace || function(window, document){
 	trace.error = function(){
 		pushData(3, arguments);
 	};
-	trace.time = function(mark){
-		_time[mark] && _cache.push([2, mark+' is timing!']);
-		_time[mark] = new Date().getTime();
+	trace.time = function(label){
+		_time[label] && _cache.push([2, label+' is timing!']);
+		_time[label] = new Date().getTime();
 	};
-	trace.timeEnd = function(mark){
-		//_time[mark] && trace.err( mark+' time: '+(+new Date()-_time[mark]) );
-		//不必判断_time[mark]存不存在，number-undefined=NaN，正好是一种报错
-		_cache.push([1, mark+'\'s time: '+(new Date().getTime()-_time[mark])]);
-		delete _time[mark];
+	trace.timeEnd = function(label){
+		//_time[label] && trace.error( label+' time: '+(+new Date()-_time[label]) );
+		//不必判断_time[label]存不存在，number-undefined=NaN，正好是一种报错
+		_cache.push([1, label+'\'s time: '+(new Date().getTime() - _time[label])]);
+		delete _time[label];
 	};
 	var _testCount = 0, //测试用例总数
 		_testErrorCount = 0; //测试未通过的总数
@@ -75,18 +76,19 @@ window.trace || function(window, document){
 			trace('本次报告时测试用例总数：'+_testCount);
 			if(_testErrorCount){
 				trace.error('　　测试失败总数：'+_testErrorCount);
-				trace.ok('　　测试成功总数：'+(_testCount-_testErrorCount));
+				trace.ok('　　测试成功总数：'+(_testCount - _testErrorCount));
 				_testErrorCount = 0;
 			}else{
 				trace.ok('　　测试全部通过。');
 			}
 			_testCount = 0;
-		}//else{
-		//	trace.warn('没有任何测试用例。');
-		//}
+		}
 	};
-	trace.sendLog = function(msg){
-		msg && trace.warn('send log: '+msg);
+	trace.sendLog = function (msg) {
+		msg && trace.warn('send log: ' + msg);
+	};
+	trace.show = function () {
+		_Trace.showing || _Trace.toggleDisplay();
 	};
 
 	window.trace = trace;
@@ -131,7 +133,7 @@ window.trace || function(window, document){
 		};
 	}();
 	var addEvent, removeEvent, stopEvent;
-	if( document.addEventListener ){
+	if (document.addEventListener) {
 		//标准浏览器
 		addEvent = function(elem, handle, type){
 			typeof elem==='string' && (elem = document.getElementById(elem));
@@ -176,10 +178,13 @@ window.trace || function(window, document){
 			return fn.apply(context, arguments);
 		};
 	};
-	//将字符串的标签符号转义。这里只是进行简单的转义，已满足这里的需求。
+	var special_rep = {' ':'&nbsp;', '<':'&lt;', '&':'&amp;'};
+	//将字符串的标签符号转义。
 	var encodeHTML = function(str){
 		if(typeof str==='string'){
-			str = str==='' ? '[空字符串]' : str.replace(/</g,'&lt;');
+			str = str==='' ? '[空字符串]' : str.replace(/ |<|&/g, function(m){
+				return special_rep[m];
+			});
 		}
 		return str;
 	};
@@ -344,9 +349,10 @@ window.trace || function(window, document){
 			+'</div>'
 		+'</div>';
 
-	_Trace.opacity = 100; //调试框透明度：100不透明，最小10非常透明
+	_Trace = {
+	opacity: 100, //调试框透明度：100不透明，最小10非常透明
 	//创建调试框节点并绑定事件
-	_Trace.initDebugPanel = function(){
+	initDebugPanel: function () {
 		var debugPanel = createElement("div");
 		debugPanel.id = tracePrefix + "_box";
 		debugPanel.innerHTML = trace_html.replace(/{prefix}/g, tracePrefix);
@@ -429,8 +435,8 @@ window.trace || function(window, document){
 			_this.zoom();
 		}, 'dblclick');
 		isIE6 && this.ie6FixPosition();
-	};
-	_Trace.firstShow = function(){
+	},
+	firstShow: function () {
 		var box_style = this.box.style,
 			container_style = this.list_container.style,
 			showInfo = LStorage.getItem(tracePrefix+'_showInfo');
@@ -446,42 +452,54 @@ window.trace || function(window, document){
 			//showInfo.scroll && (this.scroll=showInfo.scroll);
 			showInfo.opacity && this.setOpacity(showInfo.opacity);
 		}
-	};
+	},
+	showing: false,
+	//显示/隐藏调试框，如果不存在，就直接创建节点
+	toggleDisplay: function () {
+		//如果节点不存在就创建，否则直接控制显示隐藏
+		if (this.box) {
+			this.showing = !this.showing; //this.box.style.display === 'none';
+			this.box.style.display = this.showing ? 'block' : 'none';
+		} else {
+			this.showing = true;
+			//创建样式表到head中
+			var css = toNode(trace_css), //IE678创建不了style节点，并且要加&#00;
+				head = document.head || document.getElementsByTagName("head")[0];
+			css ? head.appendChild(css) : addHTML(head, '&#00;'+trace_css);
+			setTimeout(function(){_Trace.initDebugPanel()}, 1);
+		}
+	},
 	//IE6 的纵向滚动条跟随
-	if(isIE6){
-		_Trace.ie6FixPosition = function(){
-			var scrtimer = 0,
-				box = this.box;
-			box.style.position = "absolute";
-			_Trace.ie6top = parseInt(box.style.top)||5;
-			var cmdarea_style = byId(tracePrefix+"_cmd_area").style;
-			cmdarea_style.left = "1px";
-			cmdarea_style.top = "26px";
-			cmdarea_style.height = "370px";
-			var winScroll = function(){
-				var scrtop = document.documentElement.scrollTop;// || document.body.scrollTop;
-				box.style.top = (scrtop+_Trace.ie6top) + 'px';
-			};
-			winScroll();
-
-			addEvent(window, function(){
-				clearTimeout(scrtimer);
-				scrtimer = setTimeout(winScroll, 200);
-			}, 'scroll');
+	ie6FixPosition: function () {
+		var scrtimer = 0,
+			box = this.box;
+		box.style.position = "absolute";
+		this.ie6top = parseInt(box.style.top)||5;
+		var cmdarea_style = byId(tracePrefix+"_cmd_area").style;
+		cmdarea_style.left = "1px";
+		cmdarea_style.top = "26px";
+		cmdarea_style.height = "370px";
+		var winScroll = function(){
+			var scrtop = document.documentElement.scrollTop;// || document.body.scrollTop;
+			box.style.top = (scrtop + _Trace.ie6top) + 'px';
 		};
-	}
+		winScroll();
+
+		addEvent(window, function(){
+			clearTimeout(scrtimer);
+			scrtimer = setTimeout(winScroll, 200);
+		}, 'scroll');
+	},
 	//在控制台打印对象（JS对象及 HTML 节点）的数据结构
-	_Trace.printObject = function(obj, lineNum){ //bgcolor, 
-		//if(obj == null){return}
+	printObject: function (obj, lineNum) {
 		var debugItem = toNode('<li class="dir'+(lineNum&1?' bg-333':'')+
 			'"><span class="line_num">#'+lineNum+'</span>'+toString.call(obj)+': </li>');
 		debugItem.appendChild( this.parseObject(obj,2) );
 		this.list.appendChild(debugItem);
-	};   
+	},
 	//解析 object 对象，并生成相应节点
-	_Trace.parseObject = function(obj, index){
-		var line = new Array(index).join("&nbsp;| — ");// + '&nbsp;';
-		//var type = typeof obj;
+	parseObject: function (obj, index) {
+		var line = new Array(index).join("&nbsp;├─ ");// + '&nbsp;';| —
 		//var isArray = Object.prototype.toString.call(obj)==='[object Array]';
 		var level1 = createElement('div'),
 			level2,
@@ -490,7 +508,6 @@ window.trace || function(window, document){
 		for(key in obj){
 			val = obj[key];
 			level2 = createElement('div');
-			//try{
 			if(typeof val==='object' && val){
 				level2.innerHTML = line;
 				var foldNode = createElement('span');
@@ -502,18 +519,15 @@ window.trace || function(window, document){
 				level2.innerHTML = line + key + ' : ' + encodeHTML(val);
 			}
 			level1.appendChild(level2);
-			//}catch(e){
-			//    trace(e.message);
-			//}
 		}
 		level2 = null;
 		if(typeof key==='undefined'){
 			level1.innerHTML = line + encodeHTML(': ' + obj); //正则里含<符号就不好了
 		}
 		return level1;
-	};   
+	},
 	//展开/收起可展开的节点
-	_Trace.foldObjNode = function(obj, node, index){
+	foldObjNode: function (obj, node, index) {
 		var nodes = node.parentNode.getElementsByTagName('div');
 		if(nodes.length===0){
 			node.parentNode.appendChild( this.parseObject(obj, index+1) );
@@ -521,10 +535,9 @@ window.trace || function(window, document){
 			nodes = nodes[0];
 			nodes.style.display = nodes.style.display==="none" ? "block" : "none";
 		}
-	};  
-	//显示指定类型的缓存数据
-	_Trace.showCacheData = function(type){
-		type = type || -1;
+	},
+	//显示缓存数据
+	showCacheData: function () {
 		var i = 0,
 			len = _cache.length,
 			itype, idata;
@@ -532,22 +545,19 @@ window.trace || function(window, document){
 		for(; i < len; i++){
 			itype = _cache[i][0];
 			idata = _cache[i][1];
-			// 判断缓存的数据类型
-			if(type===-1 || itype===type){
-				if(typeof idata==="object" && idata){
-					this.printObject(idata, i);
-				}else{
-					this.list.appendChild(toNode('<li class="color-'+itype+(i&1?' bg-333':'')+
-						'"><span class="line_num">#'+i+'</span>'+encodeHTML(idata)+'</li>'));
-				}
+			if(typeof idata==='object' && idata){
+				this.printObject(idata, i);
+			}else{
+				this.list.appendChild(toNode('<li class="color-'+itype+(i&1?' bg-333':'')+
+					'"><span class="line_num">#'+i+'</span>'+encodeHTML(idata)+'</li>'));
 			}
 		}
 		this.len = len; //为后续showThisData使用
 		//数据渲染完毕，跳转到面板底部
-		this.scrollTo();
-	};
+		this.scrollToBottom();
+	},
 	//显示当前产生的调试信息
-	_Trace.showThisData = function(itype, idata){
+	showThisData: function (itype, idata) {
 		var i = this.len;
 		if(typeof idata==="object" && idata){
 			this.printObject(idata, i);
@@ -556,16 +566,14 @@ window.trace || function(window, document){
 				'"><span class="line_num">#'+i+'</span>'+encodeHTML(idata)+'</li>'));
 		}
 		this.len++;
-		this.scrollTo();
-	};
-	//_Trace.scroll = 0;
-	//调试窗滚动到val处
-	//不传值则滚到最底部
-	_Trace.scrollTo = function(){
+		this.scrollToBottom();
+	},
+	//滚动调试窗到最底部
+	scrollToBottom: function () {
 		this.list_container.scrollTop = this.list_container.scrollHeight;
-	};
+	},
 	//显示/隐藏脚本输入框
-	_Trace.commandArea = function(isShow){
+	commandArea: function (isShow) {
 		var cmd_style = byId(tracePrefix + "_cmd_area").style;
 		if(cmd_style.display==='none'){
 			cmd_style.display = '';
@@ -573,35 +581,22 @@ window.trace || function(window, document){
 		}else{
 			cmd_style.display = 'none';
 		}
-	};
-	_Trace.execJsCode = function(){
+	},
+	execJsCode: function () {
 		var scriptText = this.cmd_textarea.value;
 		try{
 			eval(scriptText);
 		}catch(e){
-			trace.err("Exec JS error:<br/>" + e.message);
+			trace.error("Execute JS error: " + e.message);
 		}
-	};
+	},
 	//清空所有调试信息，仅是控制台的呈现，不包括缓存的 JS 数组
-	_Trace.clearConsole = function(){
+	clearConsole: function () {
 		this.list.innerHTML = "";
 		this.len = 0;
-	};
-	//显示/隐藏调试框，如果不存在，就直接创建节点
-	_Trace.show = function(){
-		// 如果节点不存在就创建，否则直接控制显示隐藏
-		if(this.box){
-			this.box.style.display = this.box.style.display==="none" ? "block" : "none";
-		}else{
-			//创建样式表到head中
-			var css = toNode(trace_css), //IE678创建不了style节点，并且要加&#00;
-				head = document.head || document.getElementsByTagName("head")[0];
-			css ? head.appendChild(css) : addHTML(head, '&#00;'+trace_css);
-			setTimeout(function(){_Trace.initDebugPanel()},1);
-		}
-	};
+	},
 	//drag title bar
-	_Trace.dragable = function(){
+	dragable: function () {
 		var box = this.box,
 			startRight, startTop,
 			startX, startY;
@@ -633,9 +628,9 @@ window.trace || function(window, document){
 			addEvent(document.body, mouseMove, "mousemove");
 			addEvent(document.body, mouseUp, "mouseup");
 		}, "mousedown");
-	};
+	},
 	//resize panel
-	_Trace.resizable = function(){
+	resizable: function () {
 		var container = this.list_container,
 			startH, startW,
 			startX, startY;
@@ -670,10 +665,10 @@ window.trace || function(window, document){
 			addEvent(document.body, mouseMove, "mousemove");
 			addEvent(document.body, mouseUp, "mouseup");
 		}, "mousedown");
-	};
-	_Trace.zoomInfo = {};
+	},
+	zoomInfo: {},
 	//isMin 是否单击最小化按钮，否则返回原大小
-	_Trace.zoom = function(isMin){
+	zoom: function (isMin) {
 		var zoom = byId(tracePrefix+"_zoom"),
 			zoomInfo = this.zoomInfo,
 			box_style = this.box.style,
@@ -714,8 +709,8 @@ window.trace || function(window, document){
 				box_style.width = isMin ? '282px' : (parseInt(zoomInfo.width)+2)+'px';
 			}
 		}
-	};
-	_Trace.setOpacity = function(val, offest){
+	},
+	setOpacity: function (val, offest) {
 		if(offest){
 			val = this.opacity + offest;
 		}
@@ -724,7 +719,8 @@ window.trace || function(window, document){
 			this.box.style.filter = "alpha(opacity="+val+")";
 			this.box.style.opacity = val/100;
 		}
-	};
+	}
+	}; //_Trace end
 	
 	//在页面上绑定快捷键
 	//Alt+~(`) 显示/隐藏控制台
@@ -735,13 +731,12 @@ window.trace || function(window, document){
 	//Alt+↑ 更不透明；Alt+↓ 更透明。
 	addEvent(document, function(evt){
 		evt = evt || window.event;
-		if( evt.altKey ){
+		if (evt.altKey) {
 			var key = evt.keyCode || evt.which;
-			if(key===192){
-				_Trace.show();
-			}
-			else if(_Trace.box && _Trace.box.style.display!=='none'){
-				switch(key){
+			if (key === 192) {
+				_Trace.toggleDisplay();
+			} else if (_Trace.showing && _Trace.box) {
+				switch (key) {
 					case 49: //Alt+!
 						_Trace.zoom();
 						break;
@@ -772,9 +767,8 @@ window.trace || function(window, document){
 		}
 	}, "keydown");
 	
-	LStorage.getItem(tracePrefix+'_autoShow')==='y' && addEvent(window, function(){
-		_Trace.box || _Trace.show(); //box存在的话说明已经通过快捷键显示了
-	}, 'load');
+	LStorage.getItem(tracePrefix + '_autoShow')==='y' &&
+		addEvent(window, trace.show, 'load');
 
 	//trace.timeEnd('trace_self');
 	

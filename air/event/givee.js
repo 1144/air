@@ -1,8 +1,22 @@
 	/*--
-		事件对象，通过givee让一个对象或类支持自定义事件后，对象或类将具有这些方法。
+		自定义事件对象。
+		通过givee让一个对象或类支持自定义事件后，对象或类将具有CustomEvent的所有方法。
+		-private
+		-note 私有对象，只能通过givee使用
+		-rel [0, givee]
 	*/
 	var CustomEvent = {
 		//_EVENTS_: {}, //事件池
+		/*--
+			绑定事件
+			-p string type 事件类型
+			-p function handler 事件处理函数
+			-p boolean [once = false] 是否一次性事件（只会被触发一次）
+			-eg
+				foo.on('inited', function (data1, data2) {
+					//todo
+				});
+		*/
 		on: function (type, handler, once) {
 			var j = type.indexOf('.');
 			if (j>0) {
@@ -13,9 +27,18 @@
 			(this._EVENTS_[type] || (this._EVENTS_[type] = [])).push(handler);
 			return this;
 		},
+		/*--
+			绑定一次性事件（只会被触发一次）
+			-p string type 事件类型
+			-p function handler 事件处理函数
+		*/
 		one: function (type, handler) {
 			return this.on(type, handler, true);
 		},
+		/*--
+			解绑事件
+			-p string type 事件类型
+		*/
 		off: function (type) {
 			var j = type.indexOf('.');
 			if (j>0) {
@@ -32,7 +55,13 @@
 			}
 			return this;
 		},
-		//触发type类型的所有事件
+		/*--
+			触发事件
+			-p string type 事件类型
+			-note 要传递事件数据时，将数据依次列在type后面
+			-eg
+				foo.emit('inited', data1, data2);
+		*/
 		emit: function (type/*, arg1, arg2, ...*/) {
 			var j = type.indexOf('.'), handlerName;
 			if (j>0) {
@@ -55,17 +84,18 @@
 	};
 
 	/*--
-		让一个对象（包括类的实例）或类支持自定义事件。
+		给一个对象（包括类的实例）或类添加自定义事件功能。
 		-p object obj 纯对象、类、类的实例都可以
+		-rel [0, CustomEvent] 调用givee后对象将具有CustomEvent的所有方法
 		-eg
 			var givee = require('air.event.givee');
-			var foo = {};
-			givee(foo);
+			var foo = {a: 1};
+			givee(foo); //给已有的foo对象添加自定义事件功能
 
-			var bar = givee({});
+			var bar = givee({}); //直接创建一个具有自定义事件功能的对象
 
 			var Dog = function(){};
-			givee(Dog);
+			givee(Dog); //给一个类添加自定义事件功能
 	*/
 	var givee = function (obj) {
 		typeof obj==='function' && (obj = obj.prototype);

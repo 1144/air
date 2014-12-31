@@ -6,21 +6,21 @@
 			var promise = new Promise();
 
 			function f1() {
-				setTimeout(function() {
+				setTimeout(function () {
 					alert(1);
 					promise.resolve();
 				}, 1500);
 			}
 
 			function f2() {
-				setTimeout(function() {
+				setTimeout(function () {
 					alert(2);
 					promise.resolve();
 				}, 1500);
 			}
 
 			function f3() {
-				setTimeout(function() {
+				setTimeout(function () {
 					alert(3);
 					promise.resolve();
 				}, 1500);
@@ -38,15 +38,21 @@
 			promise.then(f1, f3).then(f2).then(f4);
 			promise.resolve();
 	*/
-	var Promise = function() {
+	var Promise = function () {
 		this.thens = [];
 	};
 	Promise.prototype = {
-		resolve: function() {
+		/*--
+			触发下一个任务
+		*/
+		resolve: function () {
 			var t = this.thens.shift();
 			t && t.apply(null, arguments);
 		},
-		then: function() {
+		/*--
+			向任务顺序队列添加任务，可一次添加多个任务
+		*/
+		then: function () {
 			return this.thens.push.apply(this.thens, arguments), this;
 		}
 	};

@@ -2,11 +2,15 @@
 
 致力于打造轻量级、模块化的JavaScript组件库，浏览器端和node服务端都可以使用的组件库。墙裂欢迎大家分享自己的组件，享用别人的组件！
 
+## 组件API文档
+
+请移步到：[http://mokjs.sinaapp.com/air-api](http://mokjs.sinaapp.com/air-api)
+
 ## 在node服务端使用
 
 通过npm命令安装air：`npm install air-js`
 
-只有一个API：__air.use__(moduleId) - 引用模块，moduleId为模块简称或全称（也即模块路径），简称与全称的对应关系请看 `module-abbr.js` 文件。
+只有一个API：__air.use__(moduleId) - 引用模块，moduleId为模块简称或全称（也即模块路径），简称与全称的对应关系请看 module-abbr.js 文件。
 
 使用示例：
 ```javascript
@@ -78,6 +82,26 @@ mokjs路由配置：
 最后配置host `127.0.0.1 test-air.cn` ，即可访问类似 ` http://test-air.cn/util/url.html?arg=1 ` 这样的测试地址进行查看了。
 
 测试用例的编写请参照 `test/util/url.html`。
+
+## 生成组件API文档
+
+API文档采用 [mokdoc](https://github.com/1144/mokdoc) 工具生成。
+
+需要先安装mokdoc `npm install mokdoc` 。
+
+修改下面的配置并运行代码即可生成文档：
+```javascript
+	var mokdoc = require('mokdoc');
+
+	mokdoc.config.set('air', {
+		path: 'D:/1144/air/air/',	//源代码路径
+		doc_path: 'D:/mokjs/air-api/'	//文档数据保存到哪里（要放到文档展示包里）
+	});
+
+	mokdoc.start('air', function(){
+		console.log('done!');
+	});
+```
 
 ## 版本发布记录
 

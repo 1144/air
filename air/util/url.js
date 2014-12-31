@@ -1,9 +1,10 @@
 	/*--
 		url相关工具
+		-note 服务端不可用getQuery方法
 		-eg
 			var Url = require('air/util/url');
 			Url.getQuery('type');
-		-ver 0.0.2
+		-ver 0.0.1
 		-author hahaboy
 	*/
 	var Url = {
