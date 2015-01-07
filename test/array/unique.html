@@ -1,0 +1,11 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/array/unique.js</mokdata>
+<mokdata name="data.test_body">
+	<script type="text/javascript">
+		var unique = require('air/array/unique');
+		var res = unique([1, 3, 2, 1, 5, 1, '2', '1', null, 'null', null, '']);
+		console.log(res); //[1, 3, 2, 5, '2', '1', null, 'null', '']
+		res = unique([{a:1, b:3}, {a:2, b:1}, {a:5, b:1}], 'b');
+		console.log(res); //[{a:1, b:3}, {a:2, b:1}]
+	</script>
+</mokdata>

@@ -79,6 +79,8 @@ mokjs路由配置：
 	]
 ```
 
+特别注意，由于测试air时不支持模块简称，需要在测试前把 module-abbr.js 文件重命名为任意其它名字。
+
 最后配置host `127.0.0.1 test-air.cn` ，即可访问类似 ` http://test-air.cn/util/url.html?arg=1 ` 这样的测试地址进行查看了。
 
 测试用例的编写请参照 `test/util/url.html`。

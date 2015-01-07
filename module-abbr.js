@@ -2,7 +2,9 @@
 //模块简称与全称（模块绝对路径）的映射
 module.exports = {
 	//array
+	'each': 'air/array/each',
 	'unique': 'air/array/unique',
+	'uniqueEach': 'air/array/uniqueEach',
 	
 	//event
 	'broadcast': 'air/event/broadcast',
