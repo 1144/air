@@ -6,7 +6,7 @@
 		-p string [suffix = '…'] 超过截取长度时添加的后缀
 		-note 一个全角字符长度算2个单位
 		-eg
-			var clip = require('air/util/clip');
+			var clip = require('air/string/clip');
 			trace(clip('我是中国人', 8)); //我是中国…
 			trace(clip('我是中国人', 8, '..')); //我是中国..
 			trace(clip('我是中国人', 8, 10)); //我是中国人

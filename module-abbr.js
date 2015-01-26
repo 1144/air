@@ -3,18 +3,27 @@
 module.exports = {
 	//array
 	'each': 'air/array/each',
+	'mess': 'air/array/mess',
 	'unique': 'air/array/unique',
 	'uniqueEach': 'air/array/uniqueEach',
+	'uniquePush': 'air/array/uniquePush',
+	'uniqueUnshift': 'air/array/uniqueUnshift',
 	
 	//event
 	'broadcast': 'air/event/broadcast',
 	'dataObserver': 'air/event/dataObserver',
 	'givee': 'air/event/givee',
 
+	//只有node.js能用的
+	'cleardir': 'air/node/cleardir',
+	'mkdir': 'air/node/mkdir',
+
 	//string
 	'byteLength': 'air/string/byteLength',
 	'clip': 'air/string/clip',
-	'text': 'air/string/text',
+	'decodeHTML': 'air/string/decodeHTML',
+	'encodeHTML': 'air/string/encodeHTML',
+	'repeat': 'air/string/repeat',
 	'thousand': 'air/string/thousand',
 
 	//ui

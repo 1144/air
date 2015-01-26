@@ -1,3 +1,9 @@
+## 0.0.7 (2015-01-26)
+
+  - 增加mess、uniquePush、uniqueUnshift、cleardir、mkdir、decodeHTML、encodeHTML、repeat
+  - 删除text，修改clip
+  - 增加封装air组件为define形式的工具`wrap-define`
+
 ## 0.0.6 (2015-01-07)
 
   - 增加each、uniqueEach
