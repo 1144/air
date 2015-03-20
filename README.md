@@ -20,7 +20,7 @@
 
 	console.log(air.use('air/string/byteLength')('中国人民')); //使用模块全称引用模块
 
-	console.log(air.use('thousand')(78934.25)); //输出：78,934.25
+	console.log(air.use('thousandFloat')(78934.25)); //输出：78,934.25
 ```
 
 ## 在浏览器端使用
