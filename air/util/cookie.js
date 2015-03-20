@@ -1,11 +1,12 @@
 
 	/*--
 		cookie操作对象。
+		-as Cookie
 		-note 服务端不可用
 	*/
-	Cookie = {
+	module.exports = {
 		/*--
-			设置Cookie
+			设置cookie
 			-p string name cookie名
 			-p string|number value cookie值
 			-p object [opt] opt里应该提供：
@@ -51,7 +52,7 @@
 				(opt.secure ? '; secure' : '');
 		},
 		/*--
-			读取Cookie
+			读取cookie
 			-p string name cookie名
 			-r string cookie值
 		*/

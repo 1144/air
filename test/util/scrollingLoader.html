@@ -1,0 +1,50 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/util/scrollingLoader.js</mokdata>
+<mokdata name="data.test_body">
+<style>
+body{height:2000px;}
+</style>
+<ul id="list">
+	
+</ul>
+<button id="loadBtn">加载更多</button>
+<button id="stop">停止加载</button>
+<button id="continue">继续加载</button>
+<script type="text/javascript">
+
+			var ScrollingLoader = require('air/util/scrollingLoader');
+
+			var n = 1;
+			var opt = {
+				$list: $('#list'),
+				offsetY: 150,
+				//$loadBtn: $('#loadBtn'),
+				maxTimes: 3,
+				//isUserStopped 是否用户触发的停止加载
+				onStop: function (isUserStopped) {
+					console.log('isUserStopped:', isUserStopped);
+					//通过this.loadedTimes可取到请求了几次数据
+					console.log('loadedTimes:', this.loadedTimes);
+				},
+				loadData: function () {
+					//通过this.loadedTimes可取到请求了几次数据
+					console.log('第 '+this.loadedTimes+' 次请求数据...');
+					var i = 0, pageSize = 10;
+					for (; i < pageSize; i++) {
+						$('#list').append('<li style="height:100px;">第 '+(n++)+' 条数据</li>');
+					}
+				}
+			};
+
+			var loader = new ScrollingLoader(opt);
+			//loader.loadData();
+
+			$('#stop').on('click', function () {
+				loader.stopLoading();
+			});
+			$('#continue').on('click', function () {
+				loader.continueToLoad();
+			});
+
+</script>
+</mokdata>

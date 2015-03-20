@@ -33,7 +33,7 @@
 				}
 			});
 	*/
-	var popLayer = function (opt) {
+	function popLayer(opt) {
 		var eventName = 'click.popLayer_' + (n++),
 			hide = opt.hide || function(){this.$layer.hide()},
 			emitBodyClick = true,
@@ -70,6 +70,6 @@
 			//e.stopPropagation();
 			emitBodyClick = false;
 		});
-	};
+	}
 
 	module.exports = popLayer;

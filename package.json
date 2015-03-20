@@ -1,6 +1,6 @@
 {
   "name": "air-js",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "轻量级、模块化的JavaScript组件库（工具函数库），浏览器端和node服务端都可以使用的组件库。",
   "license": "MIT",
   "homepage": "http://mokjs.com/air.html",

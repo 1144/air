@@ -5,8 +5,9 @@
 
 	var Url = require('air/util/url');
 
-	trace(Url.getQuery());console.log(Url.getQuery());
-	trace('a', Url.getQuery('a') );
+	trace(Url.getQuery());
+	console.log(Url.getQuery());
+	trace('a', Url.getQuery('a'));
 	trace(Url.parseQuery('http://xyz.com/?a=1&e=0&f=false#some')); //{a:1, e:0, f:'false'}
 	trace.eq(Url.serializeQuery({a:1, b:'', c:false, d:0}), 'a=1&c=false&d=0');
 	trace.eq(Url.setQuery('http://xyz.com/#some', {a:1, b:'', e:0}), 'http://xyz.com/?a=1&e=0#some');

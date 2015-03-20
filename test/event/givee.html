@@ -54,5 +54,25 @@
 
 	bar.emit('go.go', 'just go.go, no go.go.go');
 
+	function People(name) {
+		this.name = name;
+		this._EVENTS_ = {};
+	}
+	People.prototype.say = function () {
+		console.log('I am '+this.name);
+	};
+	givee(People);
+
+	var p1 = new People('Xiaoming');
+	var p2 = new People('Xiaohong');
+	p1.on('say', function () {
+		p1.say();
+	});
+	p2.on('say', function () {
+		p2.say();
+	});
+	p1.emit('say');
+	//p2.emit('say');
+
 </script>
 </mokdata>

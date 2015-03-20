@@ -86,6 +86,10 @@
 	/*--
 		给一个对象（包括类的实例）或类添加自定义事件功能。
 		-p object obj 纯对象、类、类的实例都可以
+		-note 给类添加事件功能时要注意：现假设定义了一个类People，“givee(People)”之后，
+			类的所有实例都会具有事件功能，并且<rb>共用同一个事件池</rb>。
+			如果想让各实例单独使用事件池，那么要在类的构造器里加上
+			<cs>this._EVENTS_ = {};</cs>
 		-rel [0, CustomEvent] 调用givee后对象将具有CustomEvent的所有方法
 		-eg
 			var givee = require('air.event.givee');

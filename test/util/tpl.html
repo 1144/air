@@ -1,0 +1,37 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/util/tpl.js</mokdata>
+<mokdata name="data.test_body">
+<script type="text/javascript">
+
+			var Tpl = require('air/util/tpl');
+
+			//template示例1：把模板放在JS代码里
+			var tpl = '<li>{i}: {text}</li>';
+
+			//mix示例
+			//	$item: 数据列表里的单条数据
+			//	i: 该条数据在整个列表中的序号，从0开始
+			function mix($item, i) {
+				$item.text = $item.text+'...'; //覆盖原来的domain值
+				$item.i = i + 1;
+			}
+
+			var usertpl = new Tpl(tpl, mix);
+			var html = usertpl.render([
+				{text: 'text1'},
+				{text: 'text2'},
+				{text: 'text3'}
+			]);
+			//输出：<li>1: text1...</li><li>2: text2...</li><li>3: text3...</li>
+			console.log(html);
+
+			//输出：<dl>姓名: xiaoli, 年龄: 28</dl>
+			console.log(Tpl.simple('<dl>姓名: {name}, 年龄: {age}</dl>',
+				{name: 'xiaoli', age: 28}));
+				
+			//输出：<a href="http://www.letv.com">乐视网</a>
+			console.log(Tpl.simple('<a href="{1}">{0}</a>',
+				['乐视网', 'http://www.letv.com']));
+
+</script>
+</mokdata>

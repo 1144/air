@@ -1,0 +1,20 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/io/iframeRequest.js</mokdata>
+<mokdata name="data.test_body">
+<script type="text/javascript">
+
+			var iframeRequest = require('air/io/iframeRequest');
+			iframeRequest({
+				url: 'http://test-air.cn/api',
+				//type: 'GET',
+				data: {
+					action: 'get',
+					q: '2'
+				},
+				callback: function (res) {
+					console.log(res); //返回数据
+				}
+			});
+
+</script>
+</mokdata>

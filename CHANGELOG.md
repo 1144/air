@@ -1,3 +1,7 @@
+## 0.0.8 (2015-03-20)
+
+  - 增加很多新组件
+
 ## 0.0.7 (2015-01-26)
 
   - 增加mess、uniquePush、uniqueUnshift、cleardir、mkdir、decodeHTML、encodeHTML、repeat

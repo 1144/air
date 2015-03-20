@@ -1,0 +1,12 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/number/thousandFloat.js</mokdata>
+<mokdata name="data.test_body">
+<script type="text/javascript">
+
+			var thousandFloat = require('air/number/thousandFloat');
+			trace(thousandFloat(289887.89)); //·µ»Ø 289,887.89
+			trace(thousandFloat(-89887)); //·µ»Ø -89,887
+			trace(thousandFloat(13589887)); //·µ»Ø 13,589,887
+
+</script>
+</mokdata>
