@@ -1,0 +1,22 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/ui/mask.js</mokdata>
+<mokdata name="data.test_body">
+	<style type="text/css">
+		body{height:3000px}
+	</style>
+	<div id="someBtn">someBtn<div>in target</div></div>
+	<div id="layer" style="display:none;">layer<div>in layer</div></div>
+
+	<script type="text/javascript">
+		$(function() {
+			var mask = require('air/ui/mask');
+			mask.show();
+			setTimeout(function () {
+				mask.hide();
+			}, 3000);
+			setTimeout(function () {
+				mask.show(0.5);
+			}, 6000);
+		});
+	</script>
+</mokdata>

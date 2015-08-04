@@ -1,17 +1,17 @@
 <include src="../../~base/common.html" data="data" />
-<mokdata name="data.test_it">air/ui/popLayer.js</mokdata>
+<mokdata name="data.test_it">air/ui/popup.js</mokdata>
 <mokdata name="data.test_body">
 	<style type="text/css">
 		div{border:1px solid #0f0; margin:10px;}
 	</style>
-	<div id="target">target<div>in target</div></div>
+	<div id="someBtn">someBtn<div>in target</div></div>
 	<div id="layer" style="display:none;">layer<div>in layer</div></div>
 
 	<script type="text/javascript">
-		var popLayer = require('air/ui/popLayer');
-		popLayer({
-			//toggleMode: true,
-			$target: $('#target'),
+		var popup = require('air/ui/popup');
+		popup({
+			//toggle: true,
+			$trigger: $('#someBtn'),
 			$layer: $('#layer')
 		});
 	</script>

@@ -1,8 +1,12 @@
-
+	var _domain = document.domain;
 	/*--
 		cookie操作对象。
-		-as Cookie
+		-as cookie
 		-note 服务端不可用
+		-eg
+			//建议创建一个全局变量Cookie放到公共文件里，这样在业务开发时可直接使用
+			Cookie = require('air/util/cookie');
+			Cookie.setDomain('letv.com');
 	*/
 	module.exports = {
 		/*--
@@ -17,6 +21,7 @@
 					如果是一个时间对象，表示在那个时间后失效；
 					如果要存一个长期有效的cookie，该值写为'forever'，50年后过期。</p>
 			-note 删除cookie：Cookie.set(name, null);
+			-note 不能将cookie的值设置为'deleted'，否则取出来的是空字符串。
 			-eg
 				//最简单的种cookie
 				Cookie.set('ts_env11', 'x-x_x,x.x=x%x;x$x\\x'); //-_.这3个字符不会被转义
@@ -34,11 +39,11 @@
 		set: function (name, value, opt) {
 			opt || (opt = {});
 			var t = new Date(), exp = opt.exp;
-			if (typeof exp === 'number') {
+			if (typeof exp==='number') {
 				t.setTime(t.getTime() + exp*3600000); //60m * 60s * 1000ms
-			} else if (exp === 'forever') {
+			} else if (exp==='forever') {
 				t.setFullYear(t.getFullYear() + 50); //专业种植cookie 50年
-			} else if (value === null) { //删除cookie
+			} else if (value===null) { //删除cookie
 				value = '';
 				t.setTime(t.getTime() - 3600000);
 			} else if (exp instanceof Date) { //传的是一个时间对象
@@ -48,7 +53,7 @@
 			}
 			document.cookie = name+'='+encodeURIComponent(value)+
 				(t && '; expires='+t.toUTCString())+
-				'; domain='+(opt.domain || 'letv.com')+'; path='+(opt.path || '/')+
+				'; domain='+(opt.domain || _domain)+'; path='+(opt.path || '/')+
 				(opt.secure ? '; secure' : '');
 		},
 		/*--
@@ -63,12 +68,21 @@
 				nameLength = name.length,
 				i = cookies.length;
 			while (i--) {
-				cookie = cookies[i].replace(/^\s+/,'');
-				if (cookie.slice(0,nameLength) === name) {
-					return decodeURIComponent(
-						cookie.slice(nameLength)).replace(/\s+$/,'');
+				cookie = cookies[i].replace(/^\s+/, '');
+				if (cookie.slice(0, nameLength)===name) {
+					cookie = decodeURIComponent(
+						cookie.slice(nameLength)).replace(/\s+$/, '');
+					//某些浏览器从服务端删除cookie后，cookie的值暂时为'deleted'
+					return cookie==='deleted' ? '' : cookie;
 				}
 			}
 			return '';
+		},
+		/*--
+			设置存cookie的域，没有设置时默认使用document.domain
+			-p string domain 存cookie的域
+		*/
+		setDomain: function (domain) {
+			_domain = domain;
 		}
 	};

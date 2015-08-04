@@ -1,6 +1,6 @@
 	/*--
 		判断节点a是否包含节点b
-		-as contains
+		-fn
 		-p HTMLElement a DOM节点
 		-p HTMLElement b DOM节点
 		-note a===b时也返回true

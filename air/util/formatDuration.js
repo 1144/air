@@ -1,10 +1,11 @@
 	/*--
-		把时间长度转换成指定格式的时间。
+		把时间长度转换成指定格式的时间
 		-as formatDuration
 		-p number time 时间长度，单位秒
 		-p string timeFormat 时间格式，如 HH:MM:SS
 		-r string 指定格式的时间
 		-note 最大单位只到天（即DD），没有到月
+		-rel [0, formatTime] 把时间点格式化成YYYY-mm-DD HH:MM:SS格式的字符串
 		-eg
 			var formatDuration = require('air/util/formatDuration');
 			formatDuration(3615, '<p>HH小时MM分钟SS秒</p>'); //<p>01小时00分钟15秒</p>
@@ -12,7 +13,7 @@
 			formatDuration(90015, '<p>D天H小时M分钟S秒</p>'); //<p>1天1小时0分钟15秒</p>
 	*/
 	module.exports = function (time, timeFormat) {
-		var t = {DD: '00', D: '0', HH: '00', MM: '00', SS: '00', H: '0', M: '0', S: '0'},
+		var t = {DD: '00', HH: '00', MM: '00', SS: '00', D: '0', H: '0', M: '0', S: '0'},
 			_f = Math.floor, x;
 		
 		/*if (time>=2592000) { //30*24*60*60 = 2592000 //取消月的需求
@@ -43,7 +44,7 @@
 			t.SS = t.S = time;
 			time<10 && (t.SS = '0'+time);
 		}
-		return timeFormat.replace(/\b[DHMS]+\b/g, function (m) {
-			return t[m] || '';
+		return timeFormat.replace(/\b[DHMS]+\b/g, function ($0) {
+			return t[$0] || '';
 		});
 	};

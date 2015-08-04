@@ -5,9 +5,9 @@
 		-p boolean [override = true] 是否覆盖相同属性，默认覆盖
 		-r 目标对象dest
 		-eg
-			var extend = require('air/core/extend');
+			var extend = require('air/lang/extend');
 			var foo = {a: 1};
-			extend(foo, {b: 2}); //foo变成{a:1, b:2}
+			extend(foo, {b: 2}); //foo变成{a: 1, b: 2}
 	*/
 	var extend = function (dest, someObj, override) {
 		var k;

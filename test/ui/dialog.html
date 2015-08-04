@@ -1,0 +1,33 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/ui/dialog.js</mokdata>
+<mokdata name="data.test_body">
+	<style type="text/css">
+		body{height:3000px;padding:0;margin:0}
+	</style>
+	<div id="someBtn">someBtn<div>in target</div></div>
+	<div id="layer" style="display:none;">layer<div>in layer</div></div>
+
+	<script type="text/javascript">
+		window.console || (console = {log: function (msg){trace(msg)}});
+		//$(function() {
+			var Dialog = require('air/ui/dialog');
+			Dialog.alert({
+				//fixed: false,
+				underlay: true,
+				mask: false,
+				content: '第一个提示层',
+				onClose: function () {
+					console.log('close');
+				},
+				onYes: function () {
+					console.log('yes');
+				},
+				textNo: '老子不同意',
+				onNo: function () {
+					console.log('no');
+				}
+			});
+			
+		//});
+	</script>
+</mokdata>

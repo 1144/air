@@ -1,4 +1,6 @@
-
+/*--
+	node.js服务端使用air-js的入口
+*/
 var module_abbr = require('./module-abbr'),
 	cache = {};
 

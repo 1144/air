@@ -203,8 +203,8 @@
 	*/
 	Tpl.simple = function (template, data) {
 		data || (data = {});
-		return template.replace(/{(\w+)}/g, function (match, _1) {
-			return data[_1] || (data[_1]===0 ? '0' : '');
+		return template.replace(/{(\w+)}/g, function ($0, $1) {
+			return data[$1] || (data[$1]===0 ? '0' : '');
 		});
 	};
 

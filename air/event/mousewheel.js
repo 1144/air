@@ -15,30 +15,32 @@ $.fn.extend({
 	mousewheel: function (handler) {
 		return this.each(function () {
 			var elem = this, browser = $.browser;
-			handler || (handler = function () {});
-			var wheelHandler = function (e) {
-				var direction = e.wheelDelta<0 ? -1 : 1; //滚动方向
-				if (handler.call(elem, direction, e)===false) {
-					if (e.preventDefault) {
-						e.preventDefault();
-					} else {
-						e.returnValue = false;
-					}
-				}
-			};
+			handler || (handler = function(){});
+
 			if (browser.msie || browser.safari || browser.opera) {
+				elem.__mousewheel = function (e) {
+					var direction = e.wheelDelta<0 ? -1 : 1; //滚动方向
+					if (handler.call(elem, direction, e)===false) {
+						if (e.preventDefault) {
+							e.preventDefault();
+						} else {
+							e.returnValue = false;
+						}
+					}
+				};
 				if (elem.attachEvent) {
-					elem.attachEvent('onmousewheel', wheelHandler);
+					elem.attachEvent('onmousewheel', elem.__mousewheel);
 				} else {
-					elem.onmousewheel = wheelHandler;
+					elem.onmousewheel = elem.__mousewheel;
 				}
 			} else {
-				elem.addEventListener('DOMMouseScroll', function (e) {
+				elem.__mousewheel = function (e) {
 					var direction = e.detail>0 ? -1 : 1; //滚动方向
 					if (handler.call(elem, direction, e)===false) {
 						e.preventDefault();
 					}
-				}, false);
+				};
+				elem.addEventListener('DOMMouseScroll', elem.__mousewheel, false);
 			}
 		});
 	},
@@ -52,15 +54,17 @@ $.fn.extend({
 	removeMousewheel: function () {
 		return this.each(function () {
 			var elem = this, browser = $.browser;
+			if (!elem.__mousewheel) {return}
 			if (browser.msie || browser.safari || browser.opera) {
 				if (elem.detachEvent) {
-					elem.detachEvent('onmousewheel');
+					elem.detachEvent('onmousewheel', elem.__mousewheel);
 				} else {
 					elem.onmousewheel = null;
 				}
 			} else {
-				elem.removeEventListener('DOMMouseScroll');
+				elem.removeEventListener('DOMMouseScroll', elem.__mousewheel);
 			}
+			elem.__mousewheel = null;
 		});
 	}
 });

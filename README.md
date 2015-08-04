@@ -1,6 +1,6 @@
 # 轻量级、模块化的JS组件库 (函数库)
 
-致力于打造轻量级、模块化的JavaScript组件库，浏览器端和node服务端都可以使用的组件库。墙裂欢迎大家分享自己的组件，享用别人的组件！
+致力于打造轻量级、模块化的JS组件库，浏览器端和node服务端都可以使用的组件库。墙裂欢迎大家分享自己的组件，享用别人的组件！
 
 ## 组件API文档
 
@@ -44,23 +44,24 @@ __自动封装全部组件：进入当前目录，执行命令 `node wrap-define
 
 ## 开发和测试air组件
 
-air的开发和测试使用 [mokjs](http://mokjs.com/) 开发框架。
+air的开发和测试使用 [mokjs](http://mokjs.com/) 开发框架，在浏览器里运行测试用例前，需要打开mokjs的配置文件进行项目配置和路由配置。
 
-mokjs项目配置：
+在配置变量`projects`里添加以下配置：
 ```javascript
 	'test-air': {
 		path: 'D:/1144/air/',	//air项目根路径
-		modular_spec: 'Modules'
+		modular_spec: 'CommonJS'
 	},
 	'test-air-html': {
 		type: 'html',
 		path: 'D:/1144/air/test/',	//测试代码路径
 		data: {
-			root: '//test-air.cn/'
+			root: 'http://test-air.cn/'
 		}
 	},
 ```
-mokjs路由配置：
+
+在配置变量`routes`里添加以下配置：
 ```javascript
 	'test-air.cn': [
 		{
@@ -74,16 +75,12 @@ mokjs路由配置：
 			project: 'test-air-html'
 		}, {
 			regexp: /.*/,
-			locate: function (match) {
-				return projects['test-air-html'].path + match[0];
-			}
+			root: projects['test-air'].path
 		}
 	]
 ```
 
-特别注意，由于测试air时不支持模块简称，需要在测试前把 module-abbr.js 文件重命名为任意其它名字。
-
-最后配置host `127.0.0.1 test-air.cn` ，即可访问类似 ` http://test-air.cn/util/url.html?arg=1 ` 这样的测试地址进行查看了。
+最后绑上host `127.0.0.1 test-air.cn` ，即可访问类似 ` http://test-air.cn/util/url.html?arg=1 ` 这样的测试地址进行查看了。
 
 测试用例的编写请参照 `test/util/url.html`。
 
