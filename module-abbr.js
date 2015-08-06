@@ -21,6 +21,7 @@ module.exports = {
 	// event
 	'broadcast': 'air/event/broadcast',
 	'dataObserver': 'air/event/dataObserver',
+	'gatherData': 'air/event/gatherData',
 	'givee': 'air/event/givee',
 	'mousewheel': 'air/event/mousewheel',
 	'resize': 'air/event/resize',

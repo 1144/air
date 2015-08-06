@@ -1,5 +1,5 @@
 	__imgRequests__ = {};
-	/*
+	/*--
 		发送img类型的请求，主要用于数据上报。
 		-as imgRequest
 		-p str url img请求的地址
