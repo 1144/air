@@ -1,3 +1,9 @@
+## 0.1.2 (2015-08-14)
+
+  - 修改gatherData组件
+  - 修改ua组件
+  - 重命名CustomEvent为EventEmitter
+
 ## 0.1.1 (2015-08-06)
 
   - 增加gatherData组件

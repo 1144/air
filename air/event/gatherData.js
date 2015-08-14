@@ -40,7 +40,10 @@
 				if (typeof j==='number') {
 					name2index[dataName] = null;
 					datas[j] = data;
-					++i===len && callback.apply(null, datas);
+					if (++i===len) {
+						callback.apply(null, datas);
+						dataNames = callback = datas = null;
+					}
 				}
 			}
 		};

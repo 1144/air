@@ -31,7 +31,6 @@
 			ua.uc //是否uc浏览器
 			ua.qq //是否qq浏览器
 			ua.xiaomi //是否xiaomi
-			ua.ps //是否playstation
 			ua.opera //是否opera浏览器
 
 			ua.platVersion //操作系统版本号
@@ -59,19 +58,16 @@
 			{ tag: 'linux', flags: ['linux'] }
 		],
 		browsers: [
-			// chrome must be tested before safari
-			{ tag: 'chrome', versionSearch: 'chrome/', flags: ['chrome'] },
 			// iemobile must be tested before msie
 			{ tag: 'iemobile', versionSearch: 'iemobile/', flags: ['ieMobile', 'mobile'] },
 			{ tag: 'msie', versionSearch: 'msie ', flags: ['msie'] },
 			{ tag: 'firefox', versionSearch: 'firefox/', flags: ['firefox'] },
-			{ tag: 'safari', versionSearch: 'version/', flags: ['safari'] },
 			{ tag: 'micromessenger', flags: ['weixin'] },
 			{ tag: '__weibo__', flags: ['weibo'] },
 			{ tag: /ucbrowser|ucweb/, flags: ['uc'] },
 			{ tag: 'qqbrowser', flags: ['qq'] },
-			{ tag: 'xiaomi', flags: ['xiaomi'] },
-			{ tag: 'playstation', flags: ['ps'] },
+			{ tag: 'chrome', versionSearch: 'chrome/', flags: ['chrome'] },
+			{ tag: 'safari', versionSearch: 'version/', flags: ['safari'] },
 			{ tag: 'opera', versionSearch: 'version/', flags: ['opera'] }
 		],
 		engines: [
