@@ -6,23 +6,6 @@
 
 请移步到：[http://mokjs.sinaapp.com/air-api](http://mokjs.sinaapp.com/air-api)
 
-## 在node服务端使用
-
-通过npm命令安装air：`npm install air-js`
-
-只有一个API：__air.use__(moduleId) - 引用模块，moduleId为模块简称或全称（也即模块路径），简称与全称的对应关系请看 module-abbr.js 文件。
-
-使用示例：
-```javascript
-	var air = require('air-js');
-	var byteLength = air.use('byteLength'); //使用模块简称引用模块
-	console.log(byteLength('中国人')); //输出：6
-
-	console.log(air.use('air/string/byteLength')('中国人民')); //使用模块全称引用模块
-
-	console.log(air.use('thousandFloat')(78934.25)); //输出：78,934.25
-```
-
 ## 在浏览器端使用
 
 首先，把air文件夹（即air的源代码）拷贝到你的项目目录下。
@@ -40,6 +23,23 @@ __自动封装全部组件：进入当前目录，执行命令 `node wrap-define
 ```javascript
 	var byteLength = require('air/string/byteLength');
 	console.log(byteLength('中国人')); //输出：6
+```
+
+## 在node服务端使用
+
+通过npm命令安装air：`npm install air-js`
+
+只有一个API：__air.use__(moduleId) - 引用模块，moduleId为模块简称或全称（也即模块路径），简称与全称的对应关系请看 module-abbr.js 文件。
+
+使用示例：
+```javascript
+	var air = require('air-js');
+	var byteLength = air.use('byteLength'); //使用模块简称引用模块
+	console.log(byteLength('中国人')); //输出：6
+
+	console.log(air.use('air/string/byteLength')('中国人民')); //使用模块全称引用模块
+
+	console.log(air.use('thousandFloat')(78934.25)); //输出：78,934.25
 ```
 
 ## 开发和测试air组件

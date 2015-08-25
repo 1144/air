@@ -1,6 +1,7 @@
 //模块简称与全称（模块绝对路径）的映射
 module.exports = {
 	// array
+	'asynEach': 'air/array/asynEach',
 	'each': 'air/array/each',
 	'mess': 'air/array/mess',
 	'unique': 'air/array/unique',
@@ -31,6 +32,7 @@ module.exports = {
 	'iframeCrossRequest': 'air/io/iframeCrossRequest',
 	'iframeRequest': 'air/io/iframeRequest',
 	'imgRequest': 'air/io/imgRequest',
+	'smartPolling': 'air/io/smartPolling',
 
 	// lang
 	'extend': 'air/lang/extend',
@@ -38,6 +40,7 @@ module.exports = {
 	// node 只有node.js能用的
 	'cleardir': 'air/node/cleardir',
 	'mkdir': 'air/node/mkdir',
+	'trace': 'air/node/trace',
 
 	// number
 	'shorten': 'air/number/shorten',

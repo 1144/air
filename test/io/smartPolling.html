@@ -1,0 +1,15 @@
+<include src="../../~base/common.html" data="data" />
+<mokdata name="data.test_it">air/io/smartPolling.js</mokdata>
+<mokdata name="data.test_body">
+<script type="text/javascript">
+
+			var counts = [1, 2, 0, 0, 0, 0, 1, 3, 2, 0, 1, 4, 0, 0, 0, 5, 1, 2];
+			var i = 0;
+			var smartPolling = require('air/io/smartPolling');
+			smartPolling(function (resCount) {
+				var t = resCount(counts[i++]);
+				i>(counts.length-2) && clearTimeout(t);
+			});
+
+</script>
+</mokdata>

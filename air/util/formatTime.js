@@ -1,7 +1,7 @@
 	/*--
 		把时间点格式化成类似<cs>YYYY-mm-DD HH:MM:SS</cs>的字符串
 		-as formatTime
-		-p number|Date|string time 时间点，可以是单位为秒的数字，可以是一个时间对象，
+		-p number|Date|string time 时间点，可以是<rb>单位为秒</rb>的数字，可以是一个时间对象，
 			甚至可以是标准格式（2015-07-15 16:49:25）的时间字符串
 		-p string timeFormat 时间格式，例如<cs>HH:MM:SS</cs>，<cs>YYYY年m月D日</cs>
 		-r string 格式化后的时间字符串

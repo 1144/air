@@ -13,20 +13,20 @@
 			<p>html: html字符串，将此html插入到文档流，然后弹出</p>
 			<p>fixed: 是否把层固定在浏览器窗口区内，默认为true固定</p>
 			<p>mask: 遮罩层的透明度，为0~1之间的浮点数，默认为0.2。不需要遮罩层时将该选项置为false</p>
-			<p>draggable: 弹出层是否可拖拽，默认false不可拖拽。为true的时，弹出层里样式加了<cs>j-dragbar</cs>的节点将作为拖拽触发点</p>
+			<p>draggable: 弹出层是否可拖拽，默认false不可拖拽。为true的时，弹出层里样式加了`j-dragbar`的节点将作为拖拽触发点</p>
 			<p>visible: 是否在实例化Overlay后立即显示弹出层，默认显示</p>
 			<p>autoClose: 多少毫秒后自动关闭弹出层，默认不自动关闭</p>
 			<p>onShow: 显示弹出层时回调</p>
 			<p>onHide: 隐藏弹出层时回调</p>
 			<p>onClose: 关闭弹出层时回调</p>
 			<p>onClickMask: 点击遮罩层时执行的回调</p>
-			<p>showFn: 代替<cs>this.$box.show()</cs>来显示弹出层，你可以自己写显示效果，在函数内使用<cs>this.$box</cs>引用到层节点</p>
-			<p>hideFn: 代替<cs>this.$box.hide()</cs>来隐藏弹出层，你可以自己写隐藏效果，在函数内使用<cs>this.$box</cs>引用到层节点</p>
+			<p>showFn: 代替`this.$box.show()`来显示弹出层，你可以自己写显示效果，在函数内使用`this.$box`引用到层节点</p>
+			<p>hideFn: 代替`this.$box.hide()`来隐藏弹出层，你可以自己写隐藏效果，在函数内使用`this.$box`引用到层节点</p>
 			<p>events: 对弹出层里的指定节点绑定事件，为一个纯对象，
-				key例如<cs>'click .j-close'</cs>，值为处理函数，处理函数里使用<cs>this.$box</cs>引用到层节点</p>
+				key例如`'click .j-close'`，值为处理函数，处理函数里使用`this.$box`引用到层节点</p>
 			<p>underlay: 是否需要一个iframe垫片放在弹出层下面，以解决在有的浏览器下弹出层盖不住flash的bug。目前一般不需要，默认为false。</p>
 		-note 依赖jQuery
-		-note 由于div在样式display=none时无法计算div的宽高，所以弹出层在被弹出前，请使用visibility=hidden的方式隐藏层。
+		-note 由于div在样式`display:none`时无法计算div的宽高，所以弹出层在被弹出前，请使用`visibility:hidden`的方式隐藏层。
 		-eg
 			var Overlay = require('air/ui/overlay');
 			new Overlay({
@@ -127,7 +127,7 @@
 		},
 		/*--
 			设置弹出层的位置
-			-p obj pos 位置数据，例如<cs>{letf: 200, top: 300}</cs>，表示距左边200px，距顶部300px
+			-p obj pos 位置数据，例如`{letf: 200, top: 300}`，表示距左边200px，距顶部300px
 		*/
 		setPosition: function (pos) {
 			var top = pos.top, left = pos.left;
