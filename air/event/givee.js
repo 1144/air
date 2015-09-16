@@ -92,7 +92,7 @@
 			<cs>this._EVENTS_ = {};</cs>
 		-rel [0, EventEmitter] 调用givee后对象将具有EventEmitter的所有方法
 		-eg
-			var givee = require('air.event.givee');
+			var givee = require('air/event/givee');
 			var foo = {a: 1};
 			givee(foo); //给已有的foo对象添加事件功能
 

@@ -14,11 +14,11 @@
 		*/
 		parse: function (mjsoString, splitChar) {
 			var res = {},
-				data = (mjsoString || '').split(splitChar || '\u0001'),
+				data = String(mjsoString).split(splitChar || '\u0001'),
 				len = data.length,
 				i = 0;
 			if (len>1) {
-				for (; i < len; i += 2) {
+				for (; i<len; i += 2) {
 					res[data[i]] = data[i + 1];
 				}
 			}

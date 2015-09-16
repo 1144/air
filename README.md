@@ -29,17 +29,23 @@ __自动封装全部组件：进入当前目录，执行命令 `node wrap-define
 
 通过npm命令安装air：`npm install air-js`
 
-只有一个API：__air.use__(moduleId) - 引用模块，moduleId为模块简称或全称（也即模块路径），简称与全称的对应关系请看 module-abbr.js 文件。
+* __air.use__(moduleAbbr) - 引用模块，moduleAbbr为模块简称，简称与全称的对应关系请看 module-abbr.js 文件。
+
+* __air.load__(moduleAbbrs) - 一次性将多个模块挂载到air上，moduleAbbrs为要挂载的模块拼接起来的字符串，例如`'clip, thousandFloat'`。
 
 使用示例：
 ```javascript
 	var air = require('air-js');
-	var byteLength = air.use('byteLength'); //使用模块简称引用模块
-	console.log(byteLength('中国人')); //输出：6
+	// 通过use方法引用模块，只能使用模块简称
+	var byteLength = air.use('byteLength');
+	console.log(byteLength('中国人')); // => 6
 
-	console.log(air.use('air/string/byteLength')('中国人民')); //使用模块全称引用模块
+	// 通过load方法一次性将多个模块挂载到air上
+	air.load('clip, thousandFloat');
 
-	console.log(air.use('thousandFloat')(78934.25)); //输出：78,934.25
+	console.log(air.clip('我是中国人', 8)); // => 我是中国…
+
+	console.log(air.thousandFloat(78934.25)); // => 78,934.25
 ```
 
 ## 开发和测试air组件

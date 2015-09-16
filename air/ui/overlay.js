@@ -236,7 +236,7 @@
 				'overflow:hidden; position:'+(this.fixed ? 'fixed' : 'absolute')+
 				'; z-index:'+this._zIndex+
 				'; width:'+this.width+'px;height:'+this.height+
-				'px; border:none;" frameborder="0"></iframe>');
+				'px; border:none; display:none;" frameborder="0"></iframe>');
 			this.$box.before(this.$underlay);
 		},
 		//修正IE6下的定位问题

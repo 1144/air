@@ -1,16 +1,36 @@
 /*--
-	node.js∑˛ŒÒ∂À π”√air-jsµƒ»Îø⁄
+	node.jsÊúçÂä°Á´Ø‰ΩøÁî®air-jsÁöÑÂÖ•Âè£
 */
 var module_abbr = require('./module-abbr'),
-	cache = {};
+	air = {};
 
-exports.use = function (moduleId) {
-	if (cache[moduleId]) {
-		return cache[moduleId];
+air.use = function (moduleAbbr) {
+	if (air.hasOwnProperty(moduleAbbr)) {
+		return air[moduleAbbr];
 	}
-	try {
-		return cache[moduleId] = require('./' + (module_abbr[moduleId] || moduleId));
-	} catch (e) {
-		console.log('AIR-ERROR: Module "'+ moduleId +'" is not found!');
+	var id = module_abbr[moduleAbbr];
+	if (id) {
+		return air[moduleAbbr] = require('./'+id);
+	} else {
+		console.log('AIR-ERROR: Module "'+ moduleAbbr +'" is not found!');
 	}
 };
+
+air.load = function (moduleAbbrs) {
+	var abbrs = moduleAbbrs.replace(/\s/g, '').split(','),
+		i = abbrs.length,
+		moduleAbbr,
+		id;
+	while (i--) {
+		moduleAbbr = abbrs[i];
+		if (air.hasOwnProperty(moduleAbbr)) {continue}
+		id = module_abbr[moduleAbbr];
+		if (id) {
+			air[moduleAbbr] = require('./'+id);
+		} else {
+			console.log('AIR-ERROR: Module "'+ moduleAbbr +'" is not found!');
+		}
+	}
+};
+
+module.exports = air;
