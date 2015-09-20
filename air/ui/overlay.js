@@ -96,7 +96,7 @@
 				type = k.split(/ +/);
 				if (type.length===2) {
 					$box.find(type[1]).on(type[0], (function (fn) {
-						return function () {fn.call(_this)};
+						return function (e) {fn.call(_this, e, this)};
 					})(events[k]));
 				}
 			}

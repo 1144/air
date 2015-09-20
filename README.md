@@ -22,29 +22,24 @@ __自动封装全部组件：进入当前目录，执行命令 `node wrap-define
 
 ```javascript
 	var byteLength = require('air/string/byteLength');
-	console.log(byteLength('中国人')); //输出：6
+	console.log(byteLength('中国人')); // 输出：6
 ```
 
 ## 在node服务端使用
 
 通过npm命令安装air：`npm install air-js`
 
-* __air.use__(moduleAbbr) - 引用模块，moduleAbbr为模块简称，简称与全称的对应关系请看 module-abbr.js 文件。
-
-* __air.load__(moduleAbbrs) - 一次性将多个模块挂载到air上，moduleAbbrs为要挂载的模块拼接起来的字符串，例如`'clip, thousandFloat'`。
-
 使用示例：
 ```javascript
+	// 所有的模块以模块简称为属性名挂载在air上
 	var air = require('air-js');
-	// 通过use方法引用模块，只能使用模块简称
-	var byteLength = air.use('byteLength');
-	console.log(byteLength('中国人')); // => 6
 
-	// 通过load方法一次性将多个模块挂载到air上
-	air.load('clip, thousandFloat');
+	var byteLength = air.byteLength;
+	console.log(byteLength('中国人')); // => 6
+	console.log(byteLength('air')); // => 3
+	console.log(air.byteLength('air')); // => 3
 
 	console.log(air.clip('我是中国人', 8)); // => 我是中国…
-
 	console.log(air.thousandFloat(78934.25)); // => 78,934.25
 ```
 
@@ -55,12 +50,12 @@ air的开发和测试使用 [mokjs](http://mokjs.com/) 开发框架，在浏览�
 在配置变量`projects`里添加以下配置：
 ```javascript
 	'test-air': {
-		path: 'D:/1144/air/',	//air项目根路径
+		path: 'D:/1144/air/',	// air项目根路径
 		modular_spec: 'CommonJS'
 	},
 	'test-air-html': {
 		type: 'html',
-		path: 'D:/1144/air/test/',	//测试代码路径
+		path: 'D:/1144/air/test/',	// 测试代码路径
 		data: {
 			root: 'http://test-air.cn/'
 		}
@@ -101,8 +96,8 @@ API文档采用 [mokdoc](https://github.com/1144/mokdoc) 工具生成。
 	var mokdoc = require('mokdoc');
 
 	mokdoc.config.set('air', {
-		path: 'D:/1144/air/air/',	//源代码路径
-		doc_path: 'D:/mokjs/air-api/'	//文档数据保存到哪里（要放到文档展示包里）
+		path: 'D:/1144/air/air/',	// 源代码路径
+		doc_path: 'D:/mokjs/air-api/'	// 文档数据保存到哪里（要放到文档展示包里）
 	});
 
 	mokdoc.start('air', function(){
