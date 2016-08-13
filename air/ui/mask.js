@@ -41,7 +41,7 @@
 			'position:'+(isIE6 ? 'absolute' : 'fixed')+'; top:0; left:0;'+
 		'"></div>');
 
-		$(document.body).append($layer);
+		$(document.body).prepend($layer);
 		mask.$layer = $layer;
 		$layer.on('click', function () {
 			mask._click && mask._click();

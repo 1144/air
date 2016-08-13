@@ -22,7 +22,7 @@
 		*/
 		getQuery: function (name) {
 			var query = Url._query;
-			if (query === null) {
+			if (query===null) {
 				query = Url._query = Url.parseQuery(window.location.search.slice(1));
 			}
 			return name ? (query[name.toLowerCase()] || '') : query;
@@ -39,8 +39,8 @@
 		serializeArray: function (name, valueArr) {
 			name += '=';
 			var res = [], i = 0, len = valueArr.length;
-			for (; i < len; i++) {
-				valueArr[i]==='' || res.push(name + encodeURIComponent(valueArr[i]));
+			for (; i<len; i++) {
+				valueArr[i]==='' || res.push(name+encodeURIComponent(valueArr[i]));
 			}
 			return res.join('&');
 		},
@@ -73,19 +73,30 @@
 		*/
 		parseQuery: function (url) {
 			url = url.split('#')[0]; //去掉hash
-			if (url.indexOf('?') > 0) {
+			if (url.indexOf('?')>-1) {
 				url = url.split('?')[1];
 			}
 			url = url.split('&');
 			var query = {},
 				i = 0, l = url.length,
 				p, j;
-			for (; i < l; i++) {
+			for (; i<l; i++) {
 				p = url[i];
 				if (p) {
 					j = p.indexOf('=');
-					v = p.slice(j+1);
-					v && j>0 && (query[p.slice(0,j).toLowerCase()] = decodeURIComponent(v));
+					v = decodeURIComponent(p.slice(j + 1));
+					if (v && j>0) {
+						p = p.slice(0, j).toLowerCase();
+						if (query[p]) {
+							if (typeof query[p]==='string') {
+								query[p] = [query[p], v];
+							} else {
+								query[p].push(v);
+							}
+						} else {
+							query[p] = v;
+						}
+					}
 				}
 			}
 			return query;
@@ -100,12 +111,12 @@
 		*/
 		setQuery: function (url, param) {
 			var hash = '';
-			if (url.indexOf('#') > -1) {
+			if (url.indexOf('#')>-1) {
 				url = url.split('#');
 				hash = '#'+url[1];
 				url = url[0];
 			}
-			if (url.indexOf('?') > 0) {
+			if (url.indexOf('?')>0) {
 				var query = Url.parseQuery(url);
 				for (var k in query) {
 					param.hasOwnProperty(k) || 
@@ -113,7 +124,7 @@
 				}
 				url = url.split('?')[0];
 			}
-			return url + '?' + Url.serializeQuery(param) + hash;
+			return url+'?'+Url.serializeQuery(param)+hash;
 		}
 	};
 

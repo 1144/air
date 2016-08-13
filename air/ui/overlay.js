@@ -55,7 +55,7 @@
 		var $box;
 		if (opt.html) {
 			_this.$box = $box = $(opt.html);
-			$(document.body).append($box);
+			$(document.body).prepend($box);
 		} else if (typeof $box==='string') {
 			_this.$box = $box = $($box);
 		} else {
@@ -79,10 +79,12 @@
 		}
 		setTimeout(function () {
 			_this._bindEvents(opt.events);
-			opt.visible===false || _this.show();
-			opt.autoClose && setTimeout(function () {
-				_this.close();
-			}, opt.autoClose);
+			if (opt.visible!==false) {
+				_this.show();
+				opt.autoClose && setTimeout(function () {
+					_this.close();
+				}, opt.autoClose);
+			}
 		}, 80); //解决有滚动条时位置计算不对的bug
 		isIE6 && _this._fixIE6();
 	}

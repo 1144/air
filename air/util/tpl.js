@@ -84,22 +84,30 @@
 				datai;
 
 			if (typeof tpl==='string') {
-				var tpls = tpl.replace(/[\r\n\t]/g, '').replace(/\'/g, "\\\'").split('{'),
+				var tpls = tpl.replace(/[\r\n\t]/g, '').replace(/\'/g, "\\\'")
+					.replace(/\\{/g, '\\u001').replace(/\\}/g, '\\u002').split('{'),
 					sous,
 					source = "return '"+tpls[0]+"'";
 				for (i = 1, len = tpls.length; i < len; i++) {
 					sous = tpls[i].split('}');
-					source = source+(sous[0].indexOf('$item.')<0 ? "+$item."+sous[0] :
-						"+("+(sous[0].indexOf('[[')<0 ? sous[0] : sous[0].replace(/\[\[/g,
-						"'").replace(/\]\]/g, "'"))+")")+
-						"+'"+sous[1]+"'";
+					if (sous[0].indexOf('$item.')<0) {
+						source += "+($item."+sous[0]+"==null ? '' : $item."+
+							sous[0]+")+'"+sous[1]+"'";
+					} else {
+						source += "+("+
+							(sous[0].indexOf('[[')<0 ? sous[0] :
+								sous[0].replace(/\[\[/g, "'").replace(/\]\]/g, "'"))+
+						")+'"+sous[1]+"'";
+					}
 				}
-				//trace(source); //只会输出一次
-				tpl = this.tpl = new Function('$item', source);
+				// console.log(source); //只会输出一次
+				tpl = this.tpl = new Function('$item',
+					source.replace(/\\u001/g, '{').replace(/\\u002/g, '}'));
 			}
 
-			if (data instanceof Array) {
-				for (i = 0, len = data.length; i < len; i++) {
+			// if (data instanceof Array) { // 通过iframe的方式请求的数据判断不准确
+			if (data.sort && data.join) {
+				for (i = 0, len = data.length; i<len; i++) {
 					datai = data[i];
 					hasMix && mix(datai, i);
 					ret += tpl(datai);
@@ -112,70 +120,47 @@
 			return ret;
 		}
 	};
-
-	var _tpl = {},
-		_mix = {};
-	/*--
-		注册模板，以实现模板管理功能
-		-static
-		-p str tplname 模板名称，需要具备唯一性
-		-p str template 模板
-		-p fn mix 混合函数
-	*/
-	Tpl.reg = function (tplname, template, mix) {
-		if (_tpl[tplname]) {
-			//trace.err('tpl reg err: '+tplname);
-			return;
-		}
-		_tpl[tplname] = template;
-		_mix[tplname] = mix;
-	};
-	/*--
-		删除已注册模板
-		-static
-		-p str tplname 注册时的模板名称
-	*/
-	Tpl.unreg = function (tplname) {
-		delete _tpl[tplname];
-		delete _mix[tplname];
-	};
+	
 	/*--
 		渲染数据到模板
 		-static
-		-p str tplname 注册时的模板名称
+		-note 本方法适合只渲染一次的模板。同一个模板渲染多次请实例化Tpl。
+		-p str tpl 待渲染的模板
 		-p json|array data JSON对象、JSON数组、非引用类型值组成的数组
 		-p fn [mix] 混合函数，有此参数时将代替实例化时传递的混合函数
 		-r str 渲染结果字符串
 	*/
-	Tpl.render = function (tplname, data, mix) {
-		if (!data || !_tpl[tplname]) {
-			//_tpl[tplname] || trace.err('tpl render err: '+tplname);
+	Tpl.render = function (tpl, data, mix) {
+		if (!data) {
 			return '';
 		}
-		mix = mix || _mix[tplname];
 		var hasMix = typeof mix==='function',
-			tpl = _tpl[tplname],
 			ret = '',
 			i, len,
 			datai;
-
-		if (typeof tpl==='string') {
-			var tpls = tpl.replace(/[\r\n\t]/g, '').replace(/\'/g, "\\\'").split('{'),
-				sous,
-				source = "return '"+tpls[0]+"'";
-			for (i = 1, len = tpls.length; i < len; i++) {
-				sous = tpls[i].split('}');
-				source = source+(sous[0].indexOf('$item.')<0 ? "+$item."+sous[0] :
-					"+("+(sous[0].indexOf('[[')<0 ? sous[0] : sous[0].replace(/\[\[/g,
-					"'").replace(/\]\]/g, "'"))+")")+
-					"+'"+sous[1]+"'";
+		
+		var tpls = tpl.replace(/[\r\n\t]/g, '').replace(/\'/g, "\\\'")
+			.replace(/\\{/g, '\\u001').replace(/\\}/g, '\\u002').split('{'),
+			sous,
+			source = "return '"+tpls[0]+"'";
+		for (i = 1, len = tpls.length; i<len; i++) {
+			sous = tpls[i].split('}');
+			if (sous[0].indexOf('$item.')<0) {
+				source += "+($item."+sous[0]+"==null ? '' : $item."+
+					sous[0]+")+'"+sous[1]+"'";
+			} else {
+				source += "+("+
+					(sous[0].indexOf('[[')<0 ? sous[0] :
+						sous[0].replace(/\[\[/g, "'").replace(/\]\]/g, "'"))+
+				")+'"+sous[1]+"'";
 			}
-			//trace(source); //只会输出一次
-			tpl = _tpl[tplname] = new Function('$item', source);
 		}
+		//trace(source); //只会输出一次
+		tpl = new Function('$item',
+			source.replace(/\\u001/g, '{').replace(/\\u002/g, '}'));
 
-		if (data instanceof Array) {
-			for (i = 0, len = data.length; i < len; i++) {
+		if (data.sort && data.join) {
+			for (i = 0, len = data.length; i<len; i++) {
 				datai = data[i];
 				hasMix && mix(datai, i);
 				ret += tpl(datai);

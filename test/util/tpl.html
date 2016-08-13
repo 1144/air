@@ -6,7 +6,7 @@
 			var Tpl = require('air/util/tpl');
 
 			//template示例1：把模板放在JS代码里
-			var tpl = '<li>{i}: {text}</li>';
+			var tpl = '<li>\\{test3\\}{i}: {text}</li>';
 
 			//mix示例
 			//	$item: 数据列表里的单条数据
@@ -22,7 +22,7 @@
 				{text: 'text2'},
 				{text: 'text3'}
 			]);
-			//输出：<li>1: text1...</li><li>2: text2...</li><li>3: text3...</li>
+			//输出：<li>{test}1: text1...</li><li>{test}2: text2...</li><li>{test}3: text3...</li>
 			console.log(html);
 
 			//输出：<dl>姓名: xiaoli, 年龄: 28</dl>
