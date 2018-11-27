@@ -4,7 +4,7 @@
 
 ## 组件API文档
 
-请移步到：[http://mokjs.sinaapp.com/air-api](http://mokjs.sinaapp.com/air-api)
+请移步到：[http://mokjs.com/air-api](http://mokjs.com/air-api)
 
 ## 在浏览器端使用
 
